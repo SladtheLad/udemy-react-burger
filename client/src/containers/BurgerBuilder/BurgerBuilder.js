@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
 
 
 const INGREDIENT_PRICES = {
@@ -20,7 +21,22 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0
     },
-    totalPrice: 4
+    totalPrice: 4,
+    purchasable: false
+  }
+
+  updatePurchase() {
+    const ingredients = {
+      ...this.state.ingredients
+    };
+    const sum = Object.keys(ingredients) //creates an array of string entries
+      .map(igKey => {
+        return ingredients[igKey];  //mapped the array and return ingredients with a "key" of the ingredient number
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    this.setState({ purchasable: sum > 0 });
   }
 
   addIngredientHandler = (type) => {
@@ -36,12 +52,12 @@ class BurgerBuilder extends Component {
     this.setState({
       totalPrice: newPrice,
       ingredients: updatedIngredients
-    })
+    }, () => this.updatePurchase()); //forces update check only after setState() is done
   }
 
   removeIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
-    if(oldCount <= 0) {
+    if (oldCount <= 0) {
       return;
     }
     const updatedCount = oldCount - 1;
@@ -55,7 +71,7 @@ class BurgerBuilder extends Component {
     this.setState({
       totalPrice: newPrice,
       ingredients: updatedIngredients
-    })
+    }, () => this.updatePurchase());  //forces update check only after setState() is done
   }
 
   render() {
@@ -67,11 +83,13 @@ class BurgerBuilder extends Component {
     } //{sald: true, meat: false, ...} if true, button is disabled
     return (
       <React.Fragment>
+        <Modal />
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
+          purchasable={this.state.purchasable}
           price={this.state.totalPrice} />
       </React.Fragment>
     );
