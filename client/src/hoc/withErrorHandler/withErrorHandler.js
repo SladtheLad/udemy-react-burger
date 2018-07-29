@@ -10,28 +10,37 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
 
     // Since we are wrapping these interceptors, this ensures that the child components will render after data is received
-    componentWillMount () {
-      axios.interceptors.request.use(req => {
-        this.setState({error: null});
+    componentWillMount() {
+      //creates a reference to the request interceptor on the fly
+      this.reqInterceptor = axios.interceptors.request.use(req => {
+        this.setState({ error: null });
         return req;
       });
-      axios.interceptors.response.use(res => res, error => {
-        this.setState({error: error});
+      //creates a reference to the response interceptor on the fly
+      this.resInterceptor = axios.interceptors.response.use(res => res, error => {
+        this.setState({ error: error });
       });
-    }; 
+    };
+
+    componentWillUnmount() {
+      //allows us to unmount the instanced axios calls when they are no longer needed
+      //from any given component this is wrapped around
+      axios.interceptors.request.eject(this.reqInterceptor);
+      axios.interceptors.response.eject(this.resInterceptor);
+    }
 
     errorConfirmedHandler = () => {
-      this.setState({error: null});
+      this.setState({ error: null });
     };
 
     render() {
       return (
         <React.Fragment>
-          <Modal 
-          show={this.state.error}
-          modalClosed={this.errorConfirmedHandler}>
+          <Modal
+            show={this.state.error}
+            modalClosed={this.errorConfirmedHandler}>
             {this.state.error ? this.state.error.message : null}
-        </Modal>
+          </Modal>
           <WrappedComponent {...this.props} />
         </React.Fragment >
       );
