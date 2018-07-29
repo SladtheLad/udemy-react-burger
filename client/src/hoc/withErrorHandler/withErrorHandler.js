@@ -8,7 +8,9 @@ const withErrorHandler = (WrappedComponent, axios) => {
       error: null
     }
 
-    componentDidMount () {
+
+    // Since we are wrapping these interceptors, this ensures that the child components will render after data is received
+    componentWillMount () {
       axios.interceptors.request.use(req => {
         this.setState({error: null});
         return req;
