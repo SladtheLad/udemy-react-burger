@@ -61,28 +61,39 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     // alert('PURCHASED!')
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice, //ideally, you would still check this value on the server to prevent tampering
-      customer: {
-        name: 'Slad the Lad',
-        address: {
-          street: 'Nightmare Street 2',
-          zipCode: '10101',
-          country: 'USA'
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastfast'
-    }
-    axios.post('/orders.json', order)
-      .then(response => {
-        this.setState({ loading: false, purchasing: false })
-      })
-      .catch(error => {
-        this.setState({ loading: false, purchasing: false })
-      })
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice, //ideally, you would still check this value on the server to prevent tampering
+    //   customer: {
+    //     name: 'Slad the Lad',
+    //     address: {
+    //       street: 'Nightmare Street 2',
+    //       zipCode: '10101',
+    //       country: 'USA'
+    //     },
+    //     email: 'test@test.com'
+    //   },
+    //   deliveryMethod: 'fastfast'
+    // }
+    // axios.post('/orders.json', order)
+    //   .then(response => {
+    //     this.setState({ loading: false, purchasing: false })
+    //   })
+    //   .catch(error => {
+    //     this.setState({ loading: false, purchasing: false })
+    //   });
+    
+    //setting up query Params for burger building
+    const queryParams = [];
+      for (let i in this.state.ingredients) {
+        queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+      }
+      const queryString = queryParams.join('&');
+      this.props.history.push({
+        pathname: '/checkout',
+        search: '?' + queryString
+      });
   }
 
   addIngredientHandler = (type) => {
