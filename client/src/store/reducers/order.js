@@ -8,6 +8,9 @@ const initialState = {
   loading: false,
   purchased: false
 }
+
+
+//could also do the same "truncation" of the switch statement as in burgerBuilder reducer file, but meh
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_INIT:
