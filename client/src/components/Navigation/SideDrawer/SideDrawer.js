@@ -15,7 +15,7 @@ const sideDrawer = (props) => {
   return (
     <React.Fragment>
       <BackDrop show={props.open} clicked={props.closed} />
-      <div className={attachedClasses.join(' ')}>
+      <div className={attachedClasses.join(' ')} onClick={props.closed}> {/* closes sidedrawer when clicking buttons too */}
         <div className={classes.Logo}>
           <Logo />
         </div>
