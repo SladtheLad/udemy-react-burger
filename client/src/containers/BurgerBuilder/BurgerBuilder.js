@@ -22,7 +22,7 @@ class BurgerBuilder extends Component {
   updatePurchase(ingredients) {
     const sum = Object.keys(ingredients) //creates an array of string entries
       .map(igKey => {
-        return ingredients[igKey];  //mapped the array and return ingredients with a "key" of the ingredient number
+        return (ingredients[igKey]);  //mapped the array and return ingredients with a "key" of the ingredient number
       })
       .reduce((sum, el) => {
         return sum + el;
@@ -32,8 +32,9 @@ class BurgerBuilder extends Component {
 
   purchaseHandler = () => {
     if (this.props.isAuthenticated) {
-      this.setState({purchasing: true});
+      this.setState({ purchasing: true });
     } else {
+      this.props.onSetAuthRedirectPath('/checkout');
       this.props.history.push('/auth');
     }
   }
@@ -107,7 +108,8 @@ const mapDispatchToProps = dispatch => {
     onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
     onInitIngredients: () => dispatch(actions.initIngredients()),
-    onInitPurchase: () => dispatch(actions.purchaseInit())
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
+    onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
   }
 }
 
