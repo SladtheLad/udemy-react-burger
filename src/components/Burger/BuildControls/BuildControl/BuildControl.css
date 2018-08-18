@@ -11,7 +11,8 @@
   padding: 5px;
   margin: 0 5px;
   width: 80px;
-  border: 1px solid #AA6817;
+  border: 1px solid #966909;
+  box-shadow: 2px 2px 2px #816249;
   cursor: pointer;
   outline: none;
 }
@@ -41,7 +42,7 @@
 }
 
 .BuildControl .More {
-  background-color: #8F5E1E;
+  background-color: #588c73;
   color: white;
 }
 
@@ -53,6 +54,6 @@
 
 .BuildControl .More:hover,
 .BuildControl .More:active {
-  background-color: #99703F;
+  background-color: #3c614f;
   color: white;
 }
