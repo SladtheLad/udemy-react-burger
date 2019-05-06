@@ -37,9 +37,10 @@ const App = props => {
       <Switch>
         <Route path="/checkout" render={props => <Checkout {...props} />} />
         <Route path="/orders" render={props => <Orders {...props} />} />
-        <Route path="/logout" render={Logout} />
+        <Route path="/logout" component={Logout} />
         <Route path="/auth" render={props => <Auth {...props} />} />
         <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to="/" />
       </Switch>
     )
   }
