@@ -13,11 +13,11 @@ const BurgerIngredient = props => {
     Meat,
     Cheese,
     Bacon,
-    Salad
+    Lettuce
   } = classes
   switch (props.type) {
     case 'bread-bottom':
-      ingredient = <div className={BreadBottom} />
+      ingredient = <div className={BreadBottom}/>
       break
     case 'bread-top':
       ingredient = (
@@ -36,8 +36,8 @@ const BurgerIngredient = props => {
     case 'bacon':
       ingredient = <div className={Bacon} />
       break
-    case 'salad':
-      ingredient = <div className={Salad} />
+    case 'lettuce':
+      ingredient = <div className={Lettuce} />
       break
     default:
       ingredient = null
